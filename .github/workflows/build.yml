@@ -46,7 +46,7 @@ jobs:
           # 1) Oculus Quest 3 kernel source (public commit bbb8e0cff7, closest to 5234532.3540.520)
           ( git clone --depth=1 -b oculus-quest3-kernel-master \
               https://github.com/facebookincubator/oculus-linux-kernel.git common \
-            && git -C common fetch --depth=1 origin bbb8e0cff7 \
+            && git -C common fetch --depth=1 origin bbb8e0cff7f048bdf011ab3e7fd686886879d80f \
             && git -C common checkout FETCH_HEAD ) &
           P_OCULUS=$!
           # 2) clang 14 prebuilt (sparse + git lfs pull to materialize the real binaries)
