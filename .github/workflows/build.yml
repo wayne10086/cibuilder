@@ -43,10 +43,10 @@ jobs:
           mkdir -p kernel && cd kernel
 
           # All independent work in parallel:
-          # 1) Oculus Quest 3 kernel source (device build 5227074.3810.520 = commit 8f32bdea)
+          # 1) Oculus Quest 3 kernel source (public commit bbb8e0cff7, closest to 5234532.3540.520)
           ( git clone --depth=1 -b oculus-quest3-kernel-master \
               https://github.com/facebookincubator/oculus-linux-kernel.git common \
-            && git -C common fetch --depth=1 origin 8f32bdea05abf85dd10d6202963f7e9bdc55c717 \
+            && git -C common fetch --depth=1 origin bbb8e0cff7 \
             && git -C common checkout FETCH_HEAD ) &
           P_OCULUS=$!
           # 2) clang 14 prebuilt (sparse + git lfs pull to materialize the real binaries)
@@ -108,8 +108,8 @@ jobs:
           sed -i '/CONFIG_KASAN/d; /CONFIG_KSU/d; /CONFIG_LOCALVERSION/d' common/arch/arm64/configs/gki_defconfig
           echo '# CONFIG_KASAN is not set' >> common/arch/arm64/configs/gki_defconfig
           echo 'CONFIG_KSU=m' >> common/arch/arm64/configs/gki_defconfig
-          echo 'CONFIG_LOCALVERSION="-g9cb2f620a9a8"' >> common/arch/arm64/configs/gki_defconfig
-          echo '# CONFIG_LOCALVERSION_AUTO is not set' >> common/arch/arm64/configs/gki_defconfig
+          echo 'CONFIG_LOCALVERSION=""' >> common/arch/arm64/configs/gki_defconfig
+          echo 'CONFIG_LOCALVERSION_AUTO=y' >> common/arch/arm64/configs/gki_defconfig
           sed -i 's/echo "+"/echo ""/g' common/scripts/setlocalversion
 
           # Build kernel to vmlinux (CC=clang resolves Kconfig; thin LTO is faster; skip dtbs)
